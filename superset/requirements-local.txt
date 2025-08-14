@@ -1,0 +1,1 @@
+echo "mysqlclient" >> ./superset/requirements-local.txt

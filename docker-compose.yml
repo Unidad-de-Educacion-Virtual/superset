@@ -1,0 +1,33 @@
+services:
+  superset:
+    build:
+      context: ./superset
+      dockerfile: Dockerfile
+    container_name: superset_container
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_LOAD_EXAMPLES: "yes"
+      SUPERSET_SECRET_KEY: "adiazc"
+    depends_on:
+      - db
+    volumes:
+      - superset_data:/app/superset_home
+      - ./superset/init_superset.sh:/app/docker/init_superset.sh
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: admin
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
+  superset_data:

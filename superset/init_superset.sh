@@ -1,27 +1,37 @@
 #!/bin/bash
+set -e
 
-# Esperar a que la base de datos esté lista
+echo "Esperando a que MySQL esté disponible..."
 while ! nc -z db 3306; do
-  sleep 1
+  echo "MySQL no está listo - esperando..."
+  sleep 2
 done
 
-# Crear usuario administrador
-superset fab create-admin --username admin --firstname Superset --lastname Admin --email admin@superset.com --password admin
+echo "MySQL está listo!"
 
-# Restablecer la contraseña del usuario admin
-#superset fab reset-password --username admin --password newpassword
-
-# Ejecutar migraciones de la base de datos
+# Actualizar la base de datos
+echo "Actualizando base de datos..."
 superset db upgrade
 
+# Crear usuario administrador (solo si no existe)
+echo "Creando usuario administrador..."
+superset fab create-admin \
+    --username admin \
+    --firstname Superset \
+    --lastname Admin \
+    --email admin@superset.com \
+    --password admin || echo "Admin ya existe"
 
-echo "Cargando datos de ejemplo..."
-superset load_examples
+# Cargar ejemplos si está habilitado
+if [ "$SUPERSET_LOAD_EXAMPLES" = "yes" ]; then
+    echo "Cargando datos de ejemplo..."
+    superset load_examples
+fi
 
 # Inicializar Superset
 echo "Inicializando Superset..."
 superset init
 
 # Iniciar Superset
-exec superset run -h 0.0.0.0 -p 8088 --with-threads --reload --debugger
-
+echo "Iniciando servidor Superset..."
+exec superset run -h 0.0.0.0 -p 8088 --with-threads --reload

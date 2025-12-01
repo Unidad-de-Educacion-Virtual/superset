@@ -9,11 +9,14 @@ services:
     environment:
       SUPERSET_LOAD_EXAMPLES: ${SUPERSET_LOAD_EXAMPLES}
       SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      PYTHONPATH: /app/pythonpath
     depends_on:
       - db
     volumes:
       - superset_data:/app/superset_home
-      - ./superset/init_superset.sh:/app/docker/init_superset.sh
     networks:
       - superset-net
 
@@ -29,8 +32,10 @@ services:
       - "33061:3306"
     volumes:
       - db_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
     networks:
       - superset-net
+    command: --default-authentication-plugin=mysql_native_password
 
 volumes:
   db_data: {}
@@ -39,4 +44,3 @@ volumes:
 networks:
   superset-net:
     driver: bridge
-

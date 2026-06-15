@@ -97,6 +97,7 @@ Nota de seguridad: no subas tu archivo `.env` real al repositorio ni incluyas cr
 .
 ├─ docker-compose.yml            # Orquesta servicios (superset + mysql)
 ├─ README.md                     # <-- Este archivo
+├─ index.html                    # Manual interactivo local (Carga Semestral Superset)
 ├─ docs/                         # Manuales y documentación (PDF / HTML)
 │  ├─ 001 Manual de implementacion v2.pdf
 │  ├─ 001 Manual_Usuario_Superset v2.pdf
@@ -116,7 +117,9 @@ Breve descripción de archivos principales:
 **📚 Documentación**
 - Manual de implementación: `docs/001 Manual de implementacion v2.pdf` (instalación, drivers BD, mantenimiento).
 - Manual de usuario / carga de usuarios: `docs/001 Manual_Usuario_Superset v2.pdf`.
-- Manual interactivo de carga semestral de usuarios: `docs/Manual_Interactivo_Carga_Superset.html` — también publicado en GitHub Pages. (Si necesitas la URL pública, reemplaza este texto con la URL del sitio).
+- Manual interactivo de carga semestral de usuarios (versión local): `index.html` — "Manual Interactivo — Carga Semestral Superset" (archivo `index.html` en la raíz).
+- Manual interactivo en `docs`: `docs/Manual_Interactivo_Carga_Superset.html` — también publicado en GitHub Pages: [https://unidad-de-educacion-virtual.github.io/superset/](https://unidad-de-educacion-virtual.github.io/superset/).
+- Aplicación pública (instancia desplegada): [https://superset.applab.ufps.edu.co/superset/welcome/](https://superset.applab.ufps.edu.co/superset/welcome/)
 
 **🔰 Uso básico**
 

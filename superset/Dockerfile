@@ -1,4 +1,4 @@
-FROM apache/superset
+FROM apache/superset:4.1.2
 
 USER root
 
@@ -11,14 +11,19 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Instalar mysqlclient
-RUN pip install mysqlclient
+# Instalar drivers de bases de datos (MySQL y PostgreSQL)
+RUN pip install mysqlclient pymysql psycopg2-binary
 
-# Añadir script de inicialización
+# Crear directorio pythonpath
+RUN mkdir -p /app/pythonpath
+
+# Copiar archivos
+COPY superset_config.py /app/pythonpath/superset_config.py
 COPY init_superset.sh /app/docker/init_superset.sh
+
+# Dar permisos de ejecución
 RUN chmod +x /app/docker/init_superset.sh
 
 USER superset
 
-# Ejecutar script de inicialización
 ENTRYPOINT ["/app/docker/init_superset.sh"]
